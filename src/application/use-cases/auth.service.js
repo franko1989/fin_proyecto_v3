@@ -8,27 +8,34 @@ class AuthService {
     }
 
     async login(email, password) {
+        // Buscar usuario por email
         const user = await this.userRepository.getByEmail(email);
         if (!user) {
             throw new UnauthorizedError('Invalid credentials');
         }
 
+        // Validar contraseña
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             throw new UnauthorizedError('Invalid credentials');
         }
 
-        // the user object from the repository might have the full role objects
-        // we need to extract role names for the token
-        const roles = user.roles.map(role => role.name);
+        // Extraer nombres de roles (evita mostrar IDs)
+        const roles = user.roles.map(role => {
+            if (typeof role === 'string') return role; // si ya es nombre
+            return role.name; // si es objeto Role
+        });
 
+        // Payload para JWT
         const payload = { 
             id: user.id, 
-            roles: roles // take care of roles extraction they are in the payloads
+            roles: roles
         };
         
+        // Firmar JWT
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
+        // Devolver token y datos del usuario
         return {
             token,
             user: {

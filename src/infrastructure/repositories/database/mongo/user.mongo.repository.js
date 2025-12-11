@@ -15,11 +15,12 @@ class UserMongoRepository extends UserRepository {
     }
 
     async getByEmail(email) {
-        const user = await UserModel.findOne({ email: email }).populate('roles');
-        if (!user) return null;
-        // for internal use (e.g., login), we might need the password, so we include it here
-        return new User(user._id.toString(), user.name, user.email, user.password, user.roles);
-    }
+    const user = await UserModel.findOne({ email }).populate('roles'); // asegúrate de usar populate
+    if (!user) return null;
+    // roles deben ser un array de nombres
+    const roles = user.roles ? user.roles.map(r => r.name) : [];
+    return new User(user._id.toString(), user.name, user.email, user.password, roles);
+}
 
     async create(userEntity) {
         const newUser = new UserModel({

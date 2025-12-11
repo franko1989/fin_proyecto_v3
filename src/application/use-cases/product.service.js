@@ -23,7 +23,8 @@ class ProductService {
             productData.price,
             productData.stock,
             productData.category,
-            productData.imageUrl
+            productData.imageUrl,
+            productData.marca
         );
         return this.productRepository.create(productEntity);
     }
@@ -36,7 +37,8 @@ class ProductService {
             productData.price,
             productData.stock,
             productData.category,
-            productData.imageUrl
+            productData.imageUrl,
+            productData.marca 
         );
         return this.productRepository.update(id, productEntity);
     }

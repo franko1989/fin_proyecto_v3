@@ -11,6 +11,10 @@ connectDB();
 app.use(morgan('dev')); 
 app.use(express.json()); 
 
+const couponsRoutes = require('./src/presentation/routes/coupon.routes');
+app.use('/api/v1/coupons', couponsRoutes);
+
+
 // TODO: Cargar Rutas (lo haremos en Clase 2)
 // Routes
 const productRoutes = require('./src/presentation/routes/product.routes');
