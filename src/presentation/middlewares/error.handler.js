@@ -11,6 +11,9 @@ function errorHandler(err, req, res, next) {
     });
   }
 
+   // log the error for debugging purposes
+  console.error(err);
+
   res.status(500).json({
     message: "An internal server error occurred",
   });

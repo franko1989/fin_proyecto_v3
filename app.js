@@ -39,7 +39,17 @@ app.get('/api/v1/healthcheck', (req, res) => {
 });
 
 // Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+         tagsSorter: "order",       // respeta el orden de los tags definidos
+  operationsSorter: "method" // ordena endpoints por tipo de método HTTP
+
+    },
+  })
+);
 
 const errorHandler = require('./src/presentation/middlewares/error.handler');
 app.use(errorHandler);
