@@ -19,7 +19,7 @@ router.get('/:id', asyncHandler(roleController.getById));
 
 // RUTAS RESTRINGIDAS SOLO PARA ADMIN
 //router.post('/', authenticateToken, isAdmin, asyncHandler(roleController.create));
-router.post('/', asyncHandler(roleController.create));
+router.post('/', authenticateToken, isAdmin, asyncHandler(roleController.create));
 router.put('/:id', authenticateToken, isAdmin, asyncHandler(roleController.update));
 router.delete('/:id', authenticateToken, isAdmin, asyncHandler(roleController.delete));
 
