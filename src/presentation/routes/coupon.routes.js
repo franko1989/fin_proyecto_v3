@@ -85,10 +85,12 @@ router.get('/:id', asyncHandler(couponController.getById));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Coupon'
- *       401:
- *        description: No token provided, authorization denied
  *       400:
  *         description: Bad request
+ *       401:
+ *        description: No token provided, authorization denied
+ *       403:
+ *        description: Access denied. Admin role required.
  *       409:
  *         description: Coupon with this code already exists
  */
@@ -124,10 +126,12 @@ router.post('/', authenticateToken, isAdmin, asyncHandler(couponController.creat
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Coupon'
-*       401:
- *        description: No token provided, authorization denied
  *       400:
  *         description: Bad request
+ *       401:
+ *        description: No token provided, authorization denied
+ *       403:
+ *        description: Access denied. Admin role required.
  *       404:
  *         description: Coupon not found
  *       409:
